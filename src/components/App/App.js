@@ -3,6 +3,7 @@ import { TodoSearch } from '../TodoSearch/TodoSearch';
 import { TodoList } from '../TodoList/TodoList';
 import { TodoItem } from '../TodoItem/TodoItem';
 import { CreateTodoButton } from '../CreateTodoButton/CreateTodoButton';
+import {useLocalStorage} from './useLocalStorage';
 import React from 'react';
 // import { TodoDay } from './components/TodoDay/TodoDay';
 
@@ -16,29 +17,7 @@ import React from 'react';
 // localStorage.setItem("TASK_V1", JSON.stringify(defaultTodo));
 // localStorage.removeItem("TASK_V1", defaultTodo)
 
-function useLocalStorage (itemName, initialValue) {
-  
-  
-  const localStorageItem = localStorage.getItem(itemName);
-  let parseItem;
 
-  if (!localStorageItem) {
-    localStorage.setItem(itemName, JSON.stringify([initialValue]));
-    parseItem = initialValue;
-  } else {
-    parseItem = JSON.parse(localStorageItem);
-  }
-  
-  const [item, setItem] = React.useState(parseItem);
-  
-  const saveItem = (newItem) => {
-    localStorage.setItem(itemName, JSON.stringify(newItem));
-    
-    setItem (newItem);
-  };
-  
-  return [item,saveItem];
-}
 
 
 function App() {
@@ -46,8 +25,7 @@ function App() {
   
   
   const [tasks, saveTasks] = useLocalStorage("TASK_V1", []);
-  const [searchValue, setSearchValue] = React.
-  useState("");
+  const [searchValue, setSearchValue] = React.useState("");
 
   const completedTasks = tasks.filter(task => !!task.completed
     ).length;
@@ -69,7 +47,7 @@ function App() {
     const completeTask = (text) => {
     const newTasks = [...tasks ];
     const taskIndex  = newTasks.findIndex(
-      (task) => task.text == text 
+      (task) => task.text === text 
     )
     newTasks[taskIndex].completed = true;
     saveTasks (newTasks);
@@ -77,7 +55,7 @@ function App() {
   const deleteTask = (text) => {
     const newTasks = [...tasks ];
     const taskIndex  = newTasks.findIndex(
-      (task) => task.text == text 
+      (task) => task.text === text 
     )
      newTasks.splice(taskIndex, 1);
      saveTasks (newTasks);
