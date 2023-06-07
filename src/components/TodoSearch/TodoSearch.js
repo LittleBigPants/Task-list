@@ -7,14 +7,8 @@ function TodoSearch({
   setSearchValue,
 }) {
   
-
   
   return (
-    
-
-
-
-    
     <input
       placeholder="Cortar cebolla"
       className="TodoSearch"
